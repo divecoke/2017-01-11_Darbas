@@ -37,7 +37,7 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseAuth firebaseAuth;
-    private Button bLogout, bProfileSettings, bCapture, bGoToPost, bPosts;
+    private Button bLogout, bProfileSettings, bCapture, bGoToPost, bPosts, bCreators;
     private ImageView iwCapture;
     private ProgressDialog mProgress;
 
@@ -69,17 +69,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         bLogout = (Button) findViewById(R.id.bLogout);
         bProfileSettings = (Button) findViewById(R.id.bProfileSettings);
-        bCapture = (Button) findViewById(R.id.bCapture);
         bGoToPost = (Button) findViewById(R.id.bGoToPost);
         bPosts = (Button) findViewById(R.id.bPosts);
-        iwCapture = (ImageView) findViewById(R.id.iwCapture);
         mProgress = new ProgressDialog(this);
+        bCreators = (Button) findViewById(R.id.bCreators);
 
         bLogout.setOnClickListener(this);
         bProfileSettings.setOnClickListener(this);
-        bCapture.setOnClickListener(this);
         bGoToPost.setOnClickListener(this);
         bPosts.setOnClickListener(this);
+        bCreators.setOnClickListener(this);
 
     }
 
@@ -96,14 +95,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (v == bProfileSettings) {
             startActivity(new Intent(getApplicationContext(), ProfileSettings.class));
         }
-        if (v == bCapture) {
-            Intent intent = new Intent(Intent.ACTION_PICK);
-
-            intent.setType("image/*");
-
-            startActivityForResult(intent, GALLERY_INTENT);
-
-        }
 
         if(v == bGoToPost) {
             startActivity(new Intent(getApplicationContext(), PostActivity.class));
@@ -112,31 +103,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(v == bPosts) {
             startActivity(new Intent(getApplicationContext(), PostListActivity.class));
         }
-    }
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == GALLERY_INTENT && resultCode == RESULT_OK) {
-
-            Uri uri = data.getData();
-
-            StorageReference filePath = mStorage.child("Photos").child(uri.getLastPathSegment());
-
-            filePath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                    Uri downloadUri = taskSnapshot.getDownloadUrl();
-
-                    Picasso.with(MainActivity.this).load(downloadUri).fit().centerCrop().into(iwCapture);
-
-                    Toast.makeText(MainActivity.this, "Upload Done...", Toast.LENGTH_LONG).show();
-
-                }
-            });
-
+        if(v == bCreators) {
+            startActivity(new Intent(getApplicationContext(), CreatorsActivity.class));
         }
     }
+
+
+
 }

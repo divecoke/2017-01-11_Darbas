@@ -46,23 +46,6 @@
         android:layout_alignParentEnd="true" />
 
     <Button
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:id="@+id/bCapture"
-        android:background="@android:drawable/ic_menu_camera"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
-
-    <ImageView
-        android:layout_width="400dp"
-        android:id="@+id/iwCapture"
-        android:layout_marginTop="28dp"
-        android:layout_below="@+id/bCapture"
-        android:layout_alignParentStart="true"
-        android:layout_height="250dp"
-        android:layout_above="@+id/bPosts" />
-
-    <Button
         android:text="Post"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -81,5 +64,22 @@
         android:layout_marginBottom="12dp"
         android:id="@+id/bPosts"
         android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="Creators"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/bCreators" />
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:srcCompat="@drawable/iconapp"
+        android:id="@+id/imageView"
+        android:layout_below="@+id/bCreators"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp" />
 
 </RelativeLayout>

@@ -44,7 +44,8 @@
         </provider>
 
         <activity android:name=".PostActivity" />
-        <activity android:name=".PostListActivity"></activity>
+        <activity android:name=".PostListActivity" />
+        <activity android:name=".CreatorsActivity"></activity>
     </application>
 
 </manifest>
