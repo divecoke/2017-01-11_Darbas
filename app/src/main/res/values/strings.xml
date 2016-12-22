@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Ratenate</string>
+
+    <string name="title_activity_login">Login</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="app_id">187552565021823</string>
+    <string name="cancel_login">Cancelling login</string>
+    <string name="error_login">Error while logging through Facebook</string>
+    <string name="firebase_error_login">Firebase error login</string>
+</resources>

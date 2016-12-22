@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "735399209983",
+    "firebase_url": "https://howdoilooktoday-401f4.firebaseio.com",
+    "project_id": "howdoilooktoday-401f4",
+    "storage_bucket": "howdoilooktoday-401f4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:735399209983:android:59e64596a4c72c4f",
+        "android_client_info": {
+          "package_name": "com.example.ernestas.myapplication65651"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "735399209983-5ihg6kslnfjasdrj8hurh0gkun1g0clv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ernestas.myapplication65651",
+            "certificate_hash": "BA261F94A6C584004EBB2F9890B07192BE19785E"
+          }
+        },
+        {
+          "client_id": "735399209983-hbhm9sumns0cc3q76lha5vh7n5kbcrnq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGbtnXPuLA3WUYX_TnlTFZBb6pq_61iNo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "735399209983-hbhm9sumns0cc3q76lha5vh7n5kbcrnq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

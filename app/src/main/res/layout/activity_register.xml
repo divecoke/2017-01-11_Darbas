@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_register"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#171b3e"
+    tools:context="com.example.ernestas.myapplication65651.Register">
+
+
+    <TextView
+        android:text="You already have account?"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvNotHaveAccount"
+        android:textColor="#fff"
+        android:textSize="12sp"
+        android:layout_below="@+id/bLogin"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/logo"
+        android:id="@+id/imageView2"
+        android:layout_marginTop="22dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="52dp"
+        android:layout_marginBottom="92dp"
+        android:layout_marginStart="52dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignBottom="@+id/etEmail"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:id="@+id/etPassword"
+        android:inputType="textPassword"
+        android:hint="Password"
+        android:textColorHint="@android:color/background_light"
+        android:textColor="?attr/colorBackgroundFloating"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:textColorLink="?attr/colorPrimary" />
+
+    <Button
+        android:text="Register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/bLogin"
+        android:background="#363b6b"
+        android:textColor="#fff"
+        android:textColorHighlight="#fff"
+        android:textColorHint="#fff"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@+id/etPassword"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:id="@+id/etEmail"
+        android:hint="Email"
+        android:textColor="?attr/colorBackgroundFloating"
+        android:textColorHint="@android:color/background_light"
+        android:textColorLink="?attr/colorPrimary"
+        android:layout_above="@+id/etPassword"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:inputType="textEmailAddress" />
+
+    <TextView
+        android:text="Login Here"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvLoginHere"
+        android:textColor="#fff"
+        android:layout_below="@+id/tvNotHaveAccount"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
