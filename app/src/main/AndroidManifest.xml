@@ -45,7 +45,8 @@
 
         <activity android:name=".PostActivity" />
         <activity android:name=".PostListActivity" />
-        <activity android:name=".CreatorsActivity"></activity>
+        <activity android:name=".CreatorsActivity" />
+        <activity android:name=".MyPostsActivity"></activity>
     </application>
 
 </manifest>

@@ -35,6 +35,7 @@ import java.io.ByteArrayOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 import java.util.UUID;
 
 import java.util.Map;
@@ -104,13 +105,15 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
 
 
         if(v == bPost) {
-
-            try {
-                savePost();
-            } catch (ParseException e) {
-                e.printStackTrace();
+            if (ivTakePhoto.getDrawable() != null) {
+                try {
+                    savePost();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Toast.makeText(this, "Please upload an image", Toast.LENGTH_LONG).show();
             }
-
         }
     }
 
@@ -125,14 +128,18 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
         storeImageToFirebase();
+
         String uuid = UUID.randomUUID().toString();
-        PostInformation postInformation = new PostInformation(uuid, user.getUid(), postText, currentDateTime, base64Image);
+
+
+        PostInformation postInformation = new PostInformation(uuid, user.getUid(), postText, currentDateTime, base64Image, "");
 
 
         databaseReference.child("posts").child(uuid).setValue(postInformation); //Saugojimas
         Toast.makeText(this, "Information Saved", Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(getApplicationContext(), PostListActivity.class);
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
+        finish();
     }
 
 
@@ -145,18 +152,10 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
             Uri selectedImageUri = data.getData();
 
             ivTakePhoto.setImageURI(selectedImageUri);
-
-
-
-
         }
     }
 
     private void storeImageToFirebase() {
-
-
-
-
         Bitmap bmp = ((BitmapDrawable) ivTakePhoto.getDrawable()).getBitmap();
         ByteArrayOutputStream bYtE = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.JPEG, 100, bYtE);

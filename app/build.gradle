@@ -7,7 +7,7 @@ android {
     buildToolsVersion "24.0.2"
     defaultConfig {
         applicationId "com.example.ernestas.myapplication65651"
-        minSdkVersion 19
+        minSdkVersion 15
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
@@ -30,6 +30,8 @@ android {
         exclude 'META-INF/license'
         exclude 'META-INF/license.txt'
     }
+    productFlavors {
+    }
 }
 
 dependencies {
@@ -49,6 +51,5 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.google.android.gms:play-services:9.2.0'
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:recyclerview-v7:25.0.1'
 }
 apply plugin: 'com.google.gms.google-services'

@@ -1,17 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff">
+    android:background="#fff"
+    android:baselineAligned="false"
+    android:layout_weight="1"
+    android:weightSum="1">
 
 
-    <TextView
-        android:text=""
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvPosterName"
-        android:padding="10dp"/>
+        android:id="@+id/ivPostPhoto"
+        android:layout_below="@+id/tvPostText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/topborder"
+        android:theme="?attr/actionBarTheme"
+        android:minHeight="?attr/actionBarSize"
+        android:id="@+id/toolbar"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:text="PostText"
@@ -19,20 +34,69 @@
         android:layout_height="wrap_content"
         android:id="@+id/tvPostText"
         android:padding="10dp"
-        android:textSize="16dp"/>
+        android:textSize="16dp"
+        android:layout_below="@+id/toolbar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="posted 15mins ago"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvUsername"
+        android:layout_alignLeft="@+id/tvUsername"
+        android:layout_alignStart="@+id/tvUsername"
+        android:id="@+id/tvPostedAgo"
+        android:textSize="10sp"
+        android:textColor="#ff9800"
+        android:textAllCaps="true" />
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/ivPostPhoto"
-        android:padding="5dp"/>
+        app:srcCompat="@drawable/cam1"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:id="@+id/imageView4"
+        android:layout_alignBottom="@+id/tvPostedAgo"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
 
     <SeekBar
-        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        style="@android:style/Widget.Material.SeekBar.Discrete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:max="10"
 
-        android:id="@+id/sbRating" />
+        android:id="@+id/sbRating"
+        android:layout_below="@+id/ivPostPhoto"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
-</LinearLayout>
+    <TextView
+        android:text="Jessica J."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:id="@+id/tvUsername"
+        android:textSize="12sp"
+        android:textStyle="normal|bold"
+        android:fontFamily="sans-serif"
+        android:layout_marginTop="16dp"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/imageView4"
+        android:layout_toEndOf="@+id/imageView4" />
+
+    <Button
+        android:id="@+id/bDeletePost"
+        android:background="@drawable/delete"
+        android:layout_width="15dp"
+        android:layout_height="20dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_alignTop="@+id/tvUsername"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>
