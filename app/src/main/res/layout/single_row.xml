@@ -49,29 +49,8 @@
         android:id="@+id/tvPostedAgo"
         android:textSize="10sp"
         android:textColor="#ff9800"
-        android:textAllCaps="true" />
-
-    <ImageView
-        app:srcCompat="@drawable/cam1"
-        android:layout_marginLeft="20dp"
-        android:layout_marginStart="20dp"
-        android:id="@+id/imageView4"
-        android:layout_alignBottom="@+id/tvPostedAgo"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_width="30dp"
-        android:layout_height="30dp" />
-
-    <SeekBar
-        style="@android:style/Widget.Material.SeekBar.Discrete"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:max="10"
-
-        android:id="@+id/sbRating"
-        android:layout_below="@+id/ivPostPhoto"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:textAllCaps="true"
+        android:layout_alignBottom="@+id/ivProfilePicture" />
 
     <TextView
         android:text="Jessica J."
@@ -85,8 +64,8 @@
         android:fontFamily="sans-serif"
         android:layout_marginTop="16dp"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/imageView4"
-        android:layout_toEndOf="@+id/imageView4" />
+        android:layout_toRightOf="@+id/ivProfilePicture"
+        android:layout_toEndOf="@+id/ivProfilePicture" />
 
     <Button
         android:id="@+id/bDeletePost"
@@ -98,5 +77,28 @@
         android:layout_alignTop="@+id/tvUsername"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <ImageView
+        app:srcCompat="@drawable/cam1"
+        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
+        android:id="@+id/ivProfilePicture"
+        android:layout_alignTop="@+id/tvUsername"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_height="31dp"
+        android:layout_width="31dp" />
+
+    <SeekBar
+        style="@android:style/Widget.Material.SeekBar.Discrete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="10"
+        android:id="@+id/sbRating"
+        android:layout_below="@+id/ivPostPhoto"
+        android:layout_alignRight="@+id/bDeletePost"
+        android:layout_alignEnd="@+id/bDeletePost"
+        android:layout_alignLeft="@+id/ivProfilePicture"
+        android:layout_alignStart="@+id/ivProfilePicture" />
 
 </RelativeLayout>

@@ -46,7 +46,11 @@
         <activity android:name=".PostActivity" />
         <activity android:name=".PostListActivity" />
         <activity android:name=".CreatorsActivity" />
-        <activity android:name=".MyPostsActivity"></activity>
+        <activity android:name=".MyPostsActivity" />
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 
 </manifest>

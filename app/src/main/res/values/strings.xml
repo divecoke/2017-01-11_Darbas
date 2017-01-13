@@ -8,4 +8,5 @@
     <string name="cancel_login">Cancelling login</string>
     <string name="error_login">Error while logging through Facebook</string>
     <string name="firebase_error_login">Firebase error login</string>
+    <string name="can_not_crop">Can not crop</string>
 </resources>

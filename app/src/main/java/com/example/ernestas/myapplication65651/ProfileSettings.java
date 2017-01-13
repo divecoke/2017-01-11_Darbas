@@ -28,6 +28,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Map;
@@ -55,7 +56,7 @@ public class ProfileSettings extends AppCompatActivity implements View.OnClickLi
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
         firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = firebaseAuth.getCurrentUser();
+        final FirebaseUser user = firebaseAuth.getCurrentUser();
 
         firebase = new Firebase("https://howdoilooktoday-401f4.firebaseio.com");
 
@@ -84,28 +85,40 @@ public class ProfileSettings extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Map<String, String> map = dataSnapshot.getValue(Map.class);
+
                 if (dataSnapshot.hasChild("firstName")) {
-                    String FirstName = map.get("firstName");
-                    etFirstName.setText(FirstName);
-                }
-                if(dataSnapshot.hasChild("lastName")) {
-                    String LastName = map.get("lastName");
-                    etLastName.setText(LastName);
-                }
-                if(dataSnapshot.hasChild("address")) {
-                    String Address = map.get("address");
-                    etAddress.setText(Address);
-                }
-                if(dataSnapshot.hasChild("profilePicture")) {
-                    //fill the view
-                    byte[] decodedString = Base64.decode(map.get("profilePicture"), Base64.DEFAULT);
-                    Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                    if (dataSnapshot.hasChild("firstName")) {
+                        String FirstName = map.get("firstName");
+                        etFirstName.setText(FirstName);
+                    }
+                    if(dataSnapshot.hasChild("lastName")) {
+                        String LastName = map.get("lastName");
+                        etLastName.setText(LastName);
+                    }
+                    if(dataSnapshot.hasChild("address")) {
+                        String Address = map.get("address");
+                        etAddress.setText(Address);
+                    }
+                    if(dataSnapshot.hasChild("profilePicture")) {
+                        //fill the view
+                        byte[] decodedString = Base64.decode(map.get("profilePicture"), Base64.DEFAULT);
+                        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
-                    ivProfilePicture.setImageBitmap(decodedByte);
+                        ivProfilePicture.setImageBitmap(decodedByte);
 
 
-                    bUploadPicture.setText("Change Profile Picture");
+                        bUploadPicture.setText("Change Profile Picture");
+                    }
+                } else {
+                    String userSplit[] = user.getDisplayName().split(" ");
+                    etFirstName.setText(userSplit[0]);
+                    etLastName.setText(userSplit[1]);
+                    Picasso.with(getApplicationContext()).load(user.getPhotoUrl()).into(ivProfilePicture);
                 }
+
+                Log.d("context", user.getPhotoUrl().toString());
+
+
 
                 progressBar.setVisibility(View.GONE);
             }

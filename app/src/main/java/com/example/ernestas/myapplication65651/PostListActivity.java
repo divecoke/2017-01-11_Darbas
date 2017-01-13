@@ -68,7 +68,7 @@ public class PostListActivity extends AppCompatActivity {
     private Button bGoToPost;
     public String username;
 
-    private List<PostInformation> postList = new ArrayList<PostInformation>();
+    private List<PostInfo> postList = new ArrayList<PostInfo>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,57 +113,75 @@ public class PostListActivity extends AppCompatActivity {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if (dataSnapshot.exists()) {
                     Map<String, String> map = dataSnapshot.getValue(Map.class);
-                    FirebaseUser user = firebaseAuth.getCurrentUser();
+                    final FirebaseUser user = firebaseAuth.getCurrentUser();
+                    final PostInfo postInfo;
 
 
-                    PostInformation postInfo;
+                    
                     if (!dataSnapshot.child("ratings").hasChild(user.getUid())) {
-                        postInfo = new PostInformation(map.get("postID"), map.get("userID"), map.get("postText"), map.get("postDate"), map.get("bit64"), "");
+                        postInfo = new PostInfo(map.get("postID"), map.get("userID"), map.get("postText"), map.get("postDate"), map.get("bit64"), "", "", "");
                     } else {
-                        postInfo = new PostInformation(map.get("postID"), map.get("userID"), map.get("postText"), map.get("postDate"), map.get("bit64"), dataSnapshot.child("ratings").child(user.getUid()).child("progress").getValue().toString());
+                        postInfo = new PostInfo(map.get("postID"), map.get("userID"), map.get("postText"), map.get("postDate"), map.get("bit64"), dataSnapshot.child("ratings").child(user.getUid()).child("progress").getValue().toString(), "", "");
                     }
+                    DatabaseReference mah = databaseReference.child("users").child(map.get("userID")).child("user_information");
+                    mah.addListenerForSingleValueEvent(new com.google.firebase.database.ValueEventListener() {
+                        @Override
+                        public void onDataChange(com.google.firebase.database.DataSnapshot dataSnapshot) {
+                            //Log.d("asdbb", dataSnapshot.getValue(String.class));
+                            if (dataSnapshot.hasChild("firstName") && dataSnapshot.hasChild("lastName")) {
+                                postInfo.setUsername(dataSnapshot.child("firstName").getValue(String.class) + " " + dataSnapshot.child("lastName").getValue(String.class));
+                            } else {
+                                postInfo.setUsername(user.getDisplayName());
+                            }
+                            if(dataSnapshot.hasChild("profilePicture")) {
+                                postInfo.setProfilePicture(dataSnapshot.child("profilePicture").getValue(String.class));
+                            }
+                            postList.add(postInfo);
+                            populateListView();
+                        }
 
-                    postList.add(postInfo);
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
-
-
-                    populateListView();
+                        }
+                    });
 
                     progressBar.setVisibility(View.GONE);
+                    
                 }
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Map<String, String> map = dataSnapshot.getValue(Map.class);
+               /* Map<String, String> map = dataSnapshot.getValue(Map.class);
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                PostInformation postInfo;
+                PostInfo postInfo;
                 int size = postList.size();
                 // Log.d("SIZE", String.valueOf(size));
 
                 for(int a = 0; size > a; a++) {
-                    PostInformation crrPost = postList.get(a);
+                    PostInfo crrPost = postList.get(a);
                     //Log.d("asd", map.get("postID") + " ar" + crrPost.getPostID());
 
                     if(crrPost.getPostID().equals(map.get("postID"))) {
                         //Log.d("id", crrPost.getPostID());
                         if (!dataSnapshot.child("ratings").hasChild(user.getUid())) {
-                            postInfo = new PostInformation(map.get("postID"), map.get("userID"), map.get("postText"), map.get("postDate"), map.get("bit64"), "");
+                            postInfo = new PostInfo(map.get("postID"), map.get("userID"), map.get("postText"), map.get("postDate"), map.get("bit64"), "");
                         } else {
-                            postInfo = new PostInformation(map.get("postID"), map.get("userID"), map.get("postText"), map.get("postDate"), map.get("bit64"), dataSnapshot.child("ratings").child(user.getUid()).child("progress").getValue().toString());
+                            postInfo = new PostInfo(map.get("postID"), map.get("userID"), map.get("postText"), map.get("postDate"), map.get("bit64"), dataSnapshot.child("ratings").child(user.getUid()).child("progress").getValue().toString());
                         }
 
                         postList.set(a, postInfo);
                     }
                 }
-                populateListView();
+                populateListView();*/
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 Map<String, String> map = dataSnapshot.getValue(Map.class);
                 for(int a = 0; postList.size() > a; a++) {
-                    PostInformation crrPost = postList.get(a);
+                    PostInfo crrPost = postList.get(a);
                     //Log.d("asd", map.get("postID") + " ar" + crrPost.getPostID());
                     Log.d("ID", map.get("postID"));
                     Log.d("ID", crrPost.getPostID());
@@ -196,13 +214,13 @@ public class PostListActivity extends AppCompatActivity {
 
 
     private void populateListView() {
-        ArrayAdapter<PostInformation> adapter = new MyListAdapter();
+        ArrayAdapter<PostInfo> adapter = new MyListAdapter();
         ListView list = (ListView) findViewById(R.id.lvAllPosts);
         list.setAdapter(adapter);
 
     }
 
-    private class MyListAdapter extends ArrayAdapter<PostInformation> {
+    private class MyListAdapter extends ArrayAdapter<PostInfo> {
 
         public MyListAdapter() {
             super(PostListActivity.this, R.layout.single_row, postList);
@@ -215,18 +233,22 @@ public class PostListActivity extends AppCompatActivity {
             itemView = getLayoutInflater().inflate(R.layout.single_row, parent, false);
             FirebaseUser user = firebaseAuth.getCurrentUser();
 
-            //find a car
-            final PostInformation currentPost = postList.get(position);
-            seekBar(user.getUid(), currentPost.getPostID());
+            //find a car1
+            final PostInfo currentPost = postList.get(position);
 
-            //fill the view
-            ImageView imageView = (ImageView)itemView.findViewById(R.id.ivPostPhoto);
+            //getting and adding profile picture to post image view
 
-            byte[] decodedString = Base64.decode(currentPost.getBit64(), Base64.DEFAULT);
-            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            ImageView ivProfilePicture = (ImageView)itemView.findViewById(R.id.ivProfilePicture);
+            if (!currentPost.getProfilePicture().equals("")) {
+                byte[] decodedString = Base64.decode(currentPost.getProfilePicture(), Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
-            imageView.setImageBitmap(decodedByte);
+                ivProfilePicture.setImageBitmap(decodedByte);
+            } else {
+                Picasso.with(getApplicationContext()).load(user.getPhotoUrl()).into(ivProfilePicture);
+            }
 
+            // Posted time ago
 
             String str_date=currentPost.getPostDate();
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -237,17 +259,28 @@ public class PostListActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            TextView textView = (TextView)itemView.findViewById(R.id.tvPostText);
-            textView.setText(currentPost.getPostText());
-
-            SeekBar sbRatings = (SeekBar)itemView.findViewById(R.id.sbRating);
-            if(currentPost.getRatings() != "") {
-                sbRatings.setProgress(parseInt(currentPost.getRatings()));
-            }
-
             TextView textView1 = (TextView)itemView.findViewById(R.id.tvPostedAgo);
             textView1.setText("Posted: " + DateUtils.getRelativeTimeSpanString(date.getTime(), new Date().getTime(), 0));
 
+
+            //fill post image
+            ImageView imageView = (ImageView)itemView.findViewById(R.id.ivPostPhoto);
+
+            byte[] decodedString1 = Base64.decode(currentPost.getBit64(), Base64.DEFAULT);
+            Bitmap decodedByte1 = BitmapFactory.decodeByteArray(decodedString1, 0, decodedString1.length);
+            imageView.setImageBitmap(decodedByte1);
+
+            //fill post text
+
+            TextView textView = (TextView)itemView.findViewById(R.id.tvPostText);
+            textView.setText(currentPost.getPostText());
+
+            //fill post username
+
+            TextView tvUsername = (TextView)itemView.findViewById(R.id.tvUsername);
+            tvUsername.setText(currentPost.getUsername());
+
+            //post delete button
 
             final Button bDelete = (Button)itemView.findViewById(R.id.bDeletePost);
             if(currentPost.getUserID().equals(user.getUid())) {
@@ -269,20 +302,20 @@ public class PostListActivity extends AppCompatActivity {
                         Log.d("DELETE", "post");
                         firebase.child("posts").child(currentPost.getPostID()).removeValue();
                     }
-                   /* if (bDelete.getTag().toString().equals()) {
-
-
-                    } else {
-                        Log.d("da", "" + bDelete.getBackground().toString());
-                    }*/
-
-
-
-                    //
-
 
                 }
             });
+
+            //post rating (SeekBar)
+
+            SeekBar sbRatings = (SeekBar)itemView.findViewById(R.id.sbRating);
+            /*if(currentPost.getRatings() != "") {
+                sbRatings.setProgress(parseInt(currentPost.getRatings()));
+            }*/
+            if(user.getUid().equals(currentPost.getUserID())) {
+                sbRatings.setVisibility(View.GONE);
+            }
+
 
             return itemView;
 
@@ -323,26 +356,5 @@ public class PostListActivity extends AppCompatActivity {
         });
     }
 
-    public void getSeekBarRatings(final String userID, final String postID) {
-
-        /*firebase.child("posts").child(userID).child(postID).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.hasChild("progress")) {
-                    if (sbRating.getProgress() != parseInt(dataSnapshot.child("progress").getValue().toString())) {
-                        sbRating.setProgress(parseInt(dataSnapshot.child("progress").getValue().toString()));
-
-                        Log.d("sccas", ""+parseInt(dataSnapshot.child("progress").getValue().toString()));
-                    }
-                }
-
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });*/
-    }
 
 }

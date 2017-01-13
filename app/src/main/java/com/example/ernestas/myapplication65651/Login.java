@@ -2,10 +2,14 @@ package com.example.ernestas.myapplication65651;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -38,8 +42,19 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Arrays;
+
+import static android.R.attr.bitmap;
 
 public class Login extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
     private Button bLogin;
@@ -62,13 +77,15 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
     private LoginButton bFacebookLogin;
     private CallbackManager callbackManager;
 
+    private DatabaseReference databaseReference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         firebaseAuth = FirebaseAuth.getInstance();
-
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
 
         firebaseAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -81,7 +98,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
                 }
 
             }
+
+
         };
+
 
         if(firebaseAuth.getCurrentUser() != null) {
             //Profile activity here
@@ -126,7 +146,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
             public void onSuccess(LoginResult loginResult) {
 
                 handleFacebookAccessToken(loginResult.getAccessToken());
-
             }
 
             @Override
@@ -146,6 +165,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
 
 
     }
+
 
     private void handleFacebookAccessToken(AccessToken accessToken) {
         progressBar.setVisibility(View.VISIBLE);
@@ -167,6 +187,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
             }
         });
     }
+
+
 
 
     /*GOOGLE LOGIN START @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
